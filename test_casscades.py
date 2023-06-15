@@ -6,6 +6,7 @@ import numpy as np
 import dlib
 import pyautogui
 
+#  input still provided( try other methods
 
 def keyboardMouseStatus(x):
     if x:
@@ -16,18 +17,7 @@ def keyboardMouseStatus(x):
     else:
         pyautogui.FAILSAFE = True
 
-def testkeyboardMouseStatus():
-    print("testing")
-    pyautogui.FAILSAFE = False
-    pyautogui.mouseDown()
-    pyautogui.mouseUp()
-    pyautogui.typewrite('')
-    print("started")
-    time.sleep(10)
-    print("finished")
-    pyautogui.FAILSAFE = True
 
-testkeyboardMouseStatus()
 # # Load the pre-trained face detection model
 #
 # # Set the threshold for face detection confidence
