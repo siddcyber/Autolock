@@ -4,37 +4,65 @@ import cv2
 import cmake
 import numpy as np
 import dlib
-import pyautogui
+# import pyautogui
+# from pynput import keyboard, mouse
+# import pygetwindow as gw
 
-#  input still provided( try other methods
+#  input still provided( try other methods)
+# check for platform specific controls
+#  check if gpu acceleration works
+print(cv2.cuda.getCudaEnabledDeviceCount())
+# def disable_input():
+#     # Get the active window handle
+#     active_window = gw.getActiveWindow()
+#
+#     # Block keyboard and mouse input for the active window
+#     active_window.block_input()
+#
+#     # Wait for the specified duration
+#     time.sleep(100)
+#
+#     # Unblock keyboard and mouse input for the active window
+#     active_window.unblock_input()
+#
+#     # Print a message indicating that input is re-enabled
+#     print("Keyboard and mouse input enabled.")
+#
+# # Call the function to disable input for 100 seconds
+# print("Disabling keyboard and mouse input for 100 seconds...")
+# disable_input()
 
-def keyboardMouseStatus(x):
-    if x:
-        pyautogui.FAILSAFE = False
-        pyautogui.mouseDown()
-        pyautogui.mouseUp()
-        pyautogui.typewrite('')
-    else:
-        pyautogui.FAILSAFE = True
+# def disable_input():
+#     # Disable keyboard and mouse input
+#     pyautogui.FAILSAFE = False
+#     pyautogui.mouseDown()
+#     pyautogui.mouseUp()
+#     pyautogui.typewrite('')
+#
+#     # Wait for the specified duration
+#     time.sleep(100)
+#
+#     # Re-enable keyboard and mouse input
+#     pyautogui.FAILSAFE = True
+#
+#     # Print a message indicating that input is re-enabledable
+#     print("Keyboard and mouse input enabled.")
+#
+# # Call the function to disable input for 100 seconds
+# print("Disabling keyboard and mouse input for 100 seconds...")
+# disable_input()
 
-
-# # Load the pre-trained face detection model
+# # Create keyboard and mouse controllers
+# keyboard_controller = keyboard.Controller()
+# mouse_controller = mouse.Controller()
 #
-# # Set the threshold for face detection confidence
-# face_confidence_threshold = 0.5
+# # Disable keyboard and mouse input
+# keyboard_controller.release(keyboard.Key.alt)  # Release any modifier keys if pressed
+# keyboard_controller.release(keyboard.Key.shift)
+# keyboard_controller.release(keyboard.Key.ctrl)
+# keyboard_controller.release(keyboard.Key.cmd)
+# mouse_controller.position = (0, 0)  # Move mouse to an arbitrary position
 #
-# # Set the maximum allowed consecutive frames without user presence
-# max_inactive_frames = 30
-#
-# # Initialize variables
-# inactive_frames = 0
-# user_present = False
-#
-# # Disable keyboard and mouse
-# pyautogui.FAILSAFE = False
-# pyautogui.mouseDown()
-# pyautogui.mouseUp()
-# pyautogui.typewrite('')
 #
 # # Initialize the webcam
 # cap = cv2.VideoCapture(0)
