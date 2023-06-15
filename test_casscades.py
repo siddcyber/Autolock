@@ -4,8 +4,30 @@ import cv2
 import cmake
 import numpy as np
 import dlib
+import pyautogui
 
 
+def keyboardMouseStatus(x):
+    if x:
+        pyautogui.FAILSAFE = False
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
+        pyautogui.typewrite('')
+    else:
+        pyautogui.FAILSAFE = True
+
+def testkeyboardMouseStatus():
+    print("testing")
+    pyautogui.FAILSAFE = False
+    pyautogui.mouseDown()
+    pyautogui.mouseUp()
+    pyautogui.typewrite('')
+    print("started")
+    time.sleep(10)
+    print("finished")
+    pyautogui.FAILSAFE = True
+
+testkeyboardMouseStatus()
 # # Load the pre-trained face detection model
 #
 # # Set the threshold for face detection confidence
