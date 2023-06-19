@@ -2,23 +2,28 @@ import tkinter, time, os, threading, sys, math, datetime
 import face_recognition
 import cv2
 import numpy as np
+from ctypes import windll
 
 
 # background light error
 # treading to improve performance
-# fix distance 30cms
+# fix distance 1 meter( try haar cascades)
 #  check window removal
 #  check window size
 # add escape feature key
-# add gui prompt and windows notification
+#  add gui prompt and windows notification
 # add mail system for notification in case of unknown user
-# authorize user( capture image, save(temp), authorize user to disable system lock)
+#  authorize user( capture image, save(temp), authorize user to disable system lock)
 #  encode faces to improve perfomance of face recognition
-# GPU acceleration implementation
+#  if face is unknown, checkinput(status =False)
+#  if face is known, checkinput(status =True)
+#  if no face detected, checkinput(status =False)
+
+
 # Helper
 def face_confidence(face_distance, face_match_threshold=0.6):
-    range = (1.0 - face_match_threshold)
-    linear_val = (1.0 - face_distance) / (range * 2.0)
+    face_range = (1.0 - face_match_threshold)
+    linear_val = (1.0 - face_distance) / (face_range * 2.0)
 
     if face_distance > face_match_threshold:
         return str(round(linear_val * 100, 2)) + '%'
@@ -37,6 +42,15 @@ class FaceRecognition:
 
     def __init__(self):
         self.encode_faces()
+
+    #  function to enable/ disable user input
+    def checkinput(self, status):
+        if status:
+            print('enabled')
+            windll.user32.BlockInput(False)  # now the keyboard will be unblocked
+        else:
+            windll.user32.BlockInput(True)  # this will block the keyboard input
+            print("disabled")
 
     def encode_faces(self):
         for image in os.listdir('face'):
@@ -83,6 +97,9 @@ class FaceRecognition:
                     if matches[best_match_index]:
                         name = self.known_face_names[best_match_index]
                         confidence = face_confidence(face_distances[best_match_index])
+                        self.checkinput(True)
+                    elif not matches[best_match_index]:
+                        self.checkinput(False)
 
                     self.face_names.append(f'{name} ({confidence})')
 
