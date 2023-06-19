@@ -12,6 +12,16 @@
 # # check for platform specific controls
 # #  check if gpu acceleration works
 #
+from ctypes import windll
+from time import sleep
+
+windll.user32.BlockInput(True)  # this will block the keyboard input
+print("started")
+for i in range(10):
+    sleep(1) # input will be blocked for 15 seconds
+    print(i)
+windll.user32.BlockInput(False)  # now the keyboard will be unblocked
+print("ended")
 # # Load the pre-trained face detection cascade classifier
 # face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 # print(cv2.cuda.getDevice())
