@@ -1,17 +1,12 @@
-# import tkinter, time, os, threading, sys, math, datetime
+# import tkinter, os, threading, sys, math, datetime
 # import face_recognition
 # import cv2
 # import cmake
 # import numpy as np
 # import dlib
-# # import pyautogui
-# # from pynput import keyboard, mouse
-# # import pygetwindow as gw
-# print(cv2.cuda.getCudaEnabledDevice())
-# #  input still provided( try other methods)
-# # check for platform specific controls
-# #  check if gpu acceleration works
-#
+
+# finally a code that works
+# must be implemented using admin rights
 from ctypes import windll
 from time import sleep
 
@@ -22,6 +17,7 @@ for i in range(10):
     print(i)
 windll.user32.BlockInput(False)  # now the keyboard will be unblocked
 print("ended")
+
 # # Load the pre-trained face detection cascade classifier
 # face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 # print(cv2.cuda.getDevice())
