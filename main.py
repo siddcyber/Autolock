@@ -18,6 +18,8 @@ from ctypes import windll
 #  if face is unknown, checkinput(status =False)
 #  if face is known, checkinput(status =True)
 #  if no face detected, checkinput(status =False)
+#  bug: if checkinput(false), after ctrl+alt+del, checkimage() will still be false and mouse will be enabled
+#  bug: trackpad working while input is disabled
 
 
 # Helper
