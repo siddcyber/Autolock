@@ -21,8 +21,8 @@ import dlib
 # haar cascades for face recognition
 
 capture = cv2.VideoCapture(0)
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-profile_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_profileface.xml')
+face_cascade = cv2.CascadeClassifier('C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_frontalface_default.xml')
+profile_cascade = cv2.CascadeClassifier('C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_profileface.xml')
 while True:
     _, frame = capture.read()
 
