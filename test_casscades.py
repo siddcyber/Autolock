@@ -19,22 +19,40 @@ import dlib
 #
 
 # haar cascades for face recognition
-
+# starting video capture
 capture = cv2.VideoCapture(0)
+# loading haar cascades profiles( using hardocded locations )
 face_cascade = cv2.CascadeClassifier('C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_frontalface_default.xml')
 profile_cascade = cv2.CascadeClassifier('C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_profileface.xml')
+
 while True:
     _, frame = capture.read()
-
+    # converting frame to grayscale for analysis
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-
+    # flipping the grayscale for left side analysis for haarcascade_profileface
+    gray_flip = cv2.flip(gray, 1)
+    # detecting faces
+    faces = face_cascade.detectMultiScale(gray, 1.2, 5)
+    # detecting profiles right
+    profiles = profile_cascade.detectMultiScale(gray, 1.2, 5)
+    # detecting profiles left
+    profiles_flip = profile_cascade.detectMultiScale(gray_flip, 1.2, 5)
+    ## drawing rectangles
+    # drawing rectangles for face
     for (x, y, width, height) in faces:
         cv2.rectangle(frame, (x, y), (x + width, y + height), (255, 0, 0), 2)
+    # drawing rectangles for profiles right
+    for (x, y, width, height) in profiles:
+        cv2.rectangle(frame, (x, y), (x + width, y + height), (0, 255, 0), 2)
+    # drawing rectangles for profiles left
+    for (x, y, width, height) in profiles_flip:
+        cv2.rectangle(frame, (x, y), (x + width, y + height), (0, 255, 0), 2)
 
-
+    # displaying the frame
     cv2.imshow('frame', frame)
+    # break code when q is pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+# closing the window and releasing the camera
 capture.release()
 cv2.destroyAllWindows()
