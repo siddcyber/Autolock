@@ -22,8 +22,10 @@ import dlib
 # starting video capture
 capture = cv2.VideoCapture(0)
 # loading haar cascades profiles( using hardocded locations )
-face_cascade = cv2.CascadeClassifier('C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_frontalface_default.xml')
-profile_cascade = cv2.CascadeClassifier('C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_profileface.xml')
+face_cascade = cv2.CascadeClassifier(
+    'C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_frontalface_default.xml')
+profile_cascade = cv2.CascadeClassifier(
+    'C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_profileface.xml')
 
 while True:
     _, frame = capture.read()
@@ -42,11 +44,14 @@ while True:
     for (x, y, width, height) in faces:
         cv2.rectangle(frame, (x, y), (x + width, y + height), (255, 0, 0), 2)
     # drawing rectangles for profiles right
+    # if len(profiles) > 0 or len(profiles_flip) > 0:
     for (x, y, width, height) in profiles:
         cv2.rectangle(frame, (x, y), (x + width, y + height), (0, 255, 0), 2)
+        print("right:", x, y, width, height)
     # drawing rectangles for profiles left
     for (x, y, width, height) in profiles_flip:
         cv2.rectangle(frame, (x, y), (x + width, y + height), (0, 255, 0), 2)
+        print("left:", x, y, width, height)
 
     # displaying the frame
     cv2.imshow('frame', frame)
