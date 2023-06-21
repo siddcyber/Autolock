@@ -22,7 +22,7 @@ import dlib
 
 capture = cv2.VideoCapture(0)
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-profile_cascade = cv2.CascadeClassifier('haarcascade_profileface.xml')
+profile_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_profileface.xml')
 while True:
     _, frame = capture.read()
 
