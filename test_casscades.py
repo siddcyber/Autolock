@@ -1,5 +1,7 @@
-import tkinter, os, threading, sys, math, datetime
+import os, threading, sys, math, datetime
 import cv2
+import tkinter as tk
+from tkinter import *
 import cmake
 import numpy as np
 import dlib
@@ -43,15 +45,31 @@ while True:
     # drawing rectangles for face
     for (x, y, width, height) in faces:
         cv2.rectangle(frame, (x, y), (x + width, y + height), (255, 0, 0), 2)
+
+    # code to check if profile was detected and print detected time
+    if len(profiles) > 0 or len(profiles_flip) > 0:
+        currentTime = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        # print("profile found", currentTime)
+
     # drawing rectangles for profiles right
-    # if len(profiles) > 0 or len(profiles_flip) > 0:
     for (x, y, width, height) in profiles:
         cv2.rectangle(frame, (x, y), (x + width, y + height), (0, 255, 0), 2)
         print("right:", x, y, width, height)
     # drawing rectangles for profiles left
     for (x, y, width, height) in profiles_flip:
-        cv2.rectangle(frame, (x, y), (x + width, y + height), (0, 255, 0), 2)
-        print("left:", x, y, width, height)
+        cv2.rectangle(frame, (width - 1 - x, y) , (x + width, y + height), (0, 255, 0), 2)
+        print("left:", width - 1 - x, y, width, height)
+
+    # # get dimensions of frame
+    # dimensions = frame.shape
+    # # height, width, number of channels of frame
+    # height = frame.shape[0]
+    # width = frame.shape[1]
+    # channels = frame.shape[2]
+    # print('Image Dimension    : ', dimensions)
+    # print('Image Height       : ', height)
+    # print('Image Width        : ', width)
+    # print('Number of Channels : ', channels)
 
     # displaying the frame
     cv2.imshow('frame', frame)
