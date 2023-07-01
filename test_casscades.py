@@ -31,6 +31,10 @@ profile_cascade = cv2.CascadeClassifier(
     'C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_profileface.xml')
 userImage = face_recognition.load_image_file("face/face.jpg")
 knownFace = face_recognition.face_encodings(userImage)[0]
+with open("knownFace.txt", "w+") as f:
+    f.truncate()
+    f.write(str(knownFace))
+    f.close()
 faceNames = []
 
 while True:
@@ -59,12 +63,17 @@ while True:
         face_encodings = face_recognition.face_encodings(RGB)
         for currentFace in face_encodings:
             matches = face_recognition.compare_faces([knownFace], currentFace)
-            name = "Unknown"
-            face_distances = face_recognition.face_distance(knownFace, face)
-            best_match_index = np.argmin(face_distances)
-            if matches[best_match_index]:
-                name = knownFace[best_match_index]
-            faceNames.append(name)
+            # print(matches)
+            # if matches == [True]:
+            #     print("user")
+            # else:
+            #     print("Unknown")
+            # name = "Unknown"
+            # face_distances = face_recognition.face_distance(knownFace, currentFace)
+            # best_match_index = np.argmin(face_distances)
+            # if matches[best_match_index]:
+            #     name = knownFace[best_match_index]
+            # faceNames.append(name)
 
 
     # code to check if profile was detected and print detected time
