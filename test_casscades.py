@@ -63,12 +63,12 @@ while True:
         face_encodings = face_recognition.face_encodings(RGB)
         for currentFace in face_encodings:
             matches = face_recognition.compare_faces([knownFace], currentFace)
-            # print(matches)
-            # if matches == [True]:
-            #     print("user")
-            # else:
-            #     print("Unknown")
-            # name = "Unknown"
+            print(type(matches))
+            if matches:
+                print("user")
+            else:
+                print("Unknown")
+            name = "Unknown"
             # face_distances = face_recognition.face_distance(knownFace, currentFace)
             # best_match_index = np.argmin(face_distances)
             # if matches[best_match_index]:
