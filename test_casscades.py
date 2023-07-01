@@ -31,17 +31,16 @@ profile_cascade = cv2.CascadeClassifier(
     'C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_profileface.xml')
 userImage = face_recognition.load_image_file("face/face.jpg")
 knownFace = face_recognition.face_encodings(userImage)[0]
-with open("knownFace.txt", "w+") as f:
-    f.truncate()
-    f.write(str(knownFace))
-    f.close()
+# with open("knownFace.txt", "w+") as f:
+#     f.truncate()
+#     f.write(str(knownFace))
+#     f.close()
 faceNames = []
 
 while True:
     _, frame = capture.read()
     # converting frame to grayscale for analysis
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    # RGB = cv2.cvtColor(gray, cv2.COLOR_GRAY2RGB)
     # flipping the grayscale for left side analysis for haarcascade_profileface
     gray_flip = cv2.flip(gray, 1)
     # detecting faces
@@ -63,12 +62,11 @@ while True:
         face_encodings = face_recognition.face_encodings(RGB)
         for currentFace in face_encodings:
             matches = face_recognition.compare_faces([knownFace], currentFace)
-            print(type(matches))
-            if matches:
+            if matches == [True]:
                 print("user")
             else:
                 print("Unknown")
-            name = "Unknown"
+            # name = "Unknown"
             # face_distances = face_recognition.face_distance(knownFace, currentFace)
             # best_match_index = np.argmin(face_distances)
             # if matches[best_match_index]:
