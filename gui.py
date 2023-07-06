@@ -25,12 +25,22 @@ startupButton = Button(optionFrame, text='Startup', command=checkstartup, backgr
 showCameraButton = Button(optionFrame, text='Show camera', command=checkCamera, background='White')
 changelogLoc = Button(optionFrame, text='Change log location', command=changelog, background='White')
 
+# second frame for camera and related
+cameraFrame = LabelFrame(window, background='White')
+cameraCanvas = Canvas(cameraFrame, width= 700//2, height= 360//2)
+cameralabel = Label(cameraFrame, relief='raised',text="no face detected", background='White')
+
 # code for creating a dynamic size window
-window.rowconfigure(index=3, weight=1)
+window.rowconfigure(index=2, weight=1)
 window.columnconfigure(index=0, weight=1)
 optionFrame.columnconfigure(index=0, weight=1)
 optionFrame.columnconfigure(index=1, weight=1)
 optionFrame.columnconfigure(index=2, weight=1)
+cameraFrame.columnconfigure(index=0, weight=1)
+cameraFrame.columnconfigure(index=1, weight=1)
+# cameraFrame.rowconfigure(index=0, weight=1)
+# cameraFrame.rowconfigure(index=1, weight=1)
+
 
 # putting all widgets to grid
 heading.grid(row=0,column=0,sticky='NSEW')
@@ -38,6 +48,9 @@ optionFrame.grid(row=1,column=0,sticky='NSEW')
 startupButton.grid(row=0,column=0,sticky='EW')
 showCameraButton.grid(row=0,column=1,sticky='EW')
 changelogLoc.grid(row=0,column=2,sticky='EW')
+cameraFrame.grid(row=2,column=0,sticky='NSEW')
+cameraCanvas.grid(row=0,column=0,sticky='NSEW')
+cameralabel.grid(row=1,column=0,sticky='NSEW')
 
 #  tkinter mail loop
 window.mainloop()
