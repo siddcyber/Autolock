@@ -12,6 +12,9 @@ def checkCamera():
 def changelog():
     return True
 
+def startORstop():
+    return True
+
 # main window initialization and properties
 window = Tk()
 window.geometry("700x360")
@@ -30,6 +33,12 @@ cameraFrame = LabelFrame(window, background='White')
 cameraCanvas = Canvas(cameraFrame, width= 700//2, height= 360//2)
 cameralabel = Label(cameraFrame, relief='raised',text="no face detected", background='White')
 
+#  third frame for log and start/stop button
+logFrame = LabelFrame(window, background='White')
+log = Listbox(logFrame, background='White')
+log.insert(0, "log")
+startStopButton = Button(logFrame, text='Start', command=startORstop,background='White')
+
 # code for creating a dynamic size window
 window.rowconfigure(index=2, weight=1)
 window.columnconfigure(index=0, weight=1)
@@ -38,19 +47,26 @@ optionFrame.columnconfigure(index=1, weight=1)
 optionFrame.columnconfigure(index=2, weight=1)
 cameraFrame.columnconfigure(index=0, weight=1)
 cameraFrame.columnconfigure(index=1, weight=1)
-# cameraFrame.rowconfigure(index=0, weight=1)
-# cameraFrame.rowconfigure(index=1, weight=1)
+cameraFrame.rowconfigure(index=0, weight=1)
+cameraFrame.rowconfigure(index=1, weight=1)
+logFrame.columnconfigure(index=0, weight=1)
+logFrame.columnconfigure(index=1, weight=1)
+logFrame.rowconfigure(index=0, weight=1)
+logFrame.rowconfigure(index=1, weight=1)
 
 
 # putting all widgets to grid
-heading.grid(row=0,column=0,sticky='NSEW')
-optionFrame.grid(row=1,column=0,sticky='NSEW')
+heading.grid(row=0,column=0,sticky='NSEW', columnspan=2)
+optionFrame.grid(row=1,column=0,sticky='NSEW', columnspan=2)
 startupButton.grid(row=0,column=0,sticky='EW')
 showCameraButton.grid(row=0,column=1,sticky='EW')
 changelogLoc.grid(row=0,column=2,sticky='EW')
 cameraFrame.grid(row=2,column=0,sticky='NSEW')
 cameraCanvas.grid(row=0,column=0,sticky='NSEW')
-cameralabel.grid(row=1,column=0,sticky='NSEW')
+cameralabel.grid(row=1,column=0,sticky='EW')
+logFrame.grid(row=2,column=1,sticky='NSEW')
+log.grid(row=0,column=0,sticky='NSEW')
+startStopButton.grid(row=1,column=0,sticky='EW')
 
 #  tkinter mail loop
 window.mainloop()
