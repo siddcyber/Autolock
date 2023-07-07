@@ -1,4 +1,7 @@
 from tkinter import *
+import cv2
+from PIL import Image, ImageTk
+
 
 # function for button to work -> check if startup is enable/disabled
 def checkstartup():
@@ -15,12 +18,22 @@ def changelog():
 def startORstop():
     return True
 
+def videoPlayer():
+    ret, frame = capture.read()
+    if ret:
+        frame = cv2.cvtColor(capture.read()[1], cv2.COLOR_BGR2RGB)
+        frame = Image.fromarray(frame)
+        frame = ImageTk.PhotoImage(image=frame)
+        cameraCanvas.create_image(0, 0, image=frame)
+
+
 # main window initialization and properties
 window = Tk()
 window.geometry("700x360")
 window.configure(background="White")
 window.title("Face Recognition Autolock")
 heading = Label(window, text="Face Recognition Autolock", relief='raised', bg="White")
+capture = cv2.VideoCapture(0)
 
 # first frame for buttons
 optionFrame = LabelFrame(window, background='white')
@@ -32,6 +45,7 @@ changelogLoc = Button(optionFrame, text='Change log location', command=changelog
 cameraFrame = LabelFrame(window, background='White')
 cameraCanvas = Canvas(cameraFrame, width= 700//2, height= 360//2)
 cameralabel = Label(cameraFrame, relief='raised',text="no face detected", background='White')
+cameraCanvas.after(1, videoPlayer)
 
 #  third frame for log and start/stop button
 logFrame = LabelFrame(window, background='White')
@@ -68,5 +82,6 @@ logFrame.grid(row=2,column=1,sticky='NSEW')
 log.grid(row=0,column=0,sticky='NSEW')
 startStopButton.grid(row=1,column=0,sticky='EW')
 
-#  tkinter mail loop
+#  tkinter main loop
 window.mainloop()
+capture.release()
