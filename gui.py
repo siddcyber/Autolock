@@ -24,7 +24,7 @@ def play_video():
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             frame = Image.fromarray(frame)
             frame = ImageTk.PhotoImage(image=frame)
-            cameraCanvas.configure(image=frame)
+            cameraCanvas.create_image(0, 0, image=frame)
             cameraCanvas.image = frame  # Store a reference to prevent garbage collection
         cameraCanvas.after(15, play_video)  # Call the play_video() function again after a delay
 
