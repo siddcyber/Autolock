@@ -1,101 +1,228 @@
 import cv2
 import threading
+#
+# # loading haar cascades profiles( using hardocded locations )
+# face_cascade = cv2.CascadeClassifier(
+#     'C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_frontalface_default.xml')
+# profile_cascade = cv2.CascadeClassifier(
+#     'C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_profileface.xml')
+#
+# # importing required libraries
+# import cv2
+# import time
+# from threading import Thread  # library for implementing multi-threaded processing
+#
+#
+# # defining a helper class for implementing multi-threaded processing
+# class WebcamStream:
+#     def __init__(self, stream_id=0):
+#         self.stream_id = stream_id  # default is 0 for primary camera
+#
+#         # opening video capture stream
+#         self.vcap = cv2.VideoCapture(self.stream_id)
+#         if self.vcap.isOpened() is False:
+#             print("[Exiting]: Error accessing webcam stream.")
+#             exit(0)
+#         fps_input_stream = int(self.vcap.get(5))
+#         print("FPS of webcam hardware/input stream: {}".format(fps_input_stream))
+#
+#         # reading a single frame from vcap stream for initializing
+#         self.grabbed, self.frame = self.vcap.read()
+#         if self.grabbed is False:
+#             print('[Exiting] No more frames to read')
+#             exit(0)
+#
+#         # self.stopped is set to False when frames are being read from self.vcap stream
+#         self.stopped = True
+#
+#         # reference to the thread for reading next available frame from input stream
+#         self.t = Thread(target=self.update, args=())
+#         self.t.daemon = True  # daemon threads keep running in the background while the program is executing
+#
+#     # method for starting the thread for grabbing next available frame in input stream
+#     def start(self):
+#         self.stopped = False
+#         self.t.start()
+#
+#         # method for reading next frame
+#
+#     def update(self):
+#         while True:
+#             if self.stopped is True:
+#                 break
+#             self.grabbed, self.frame = self.vcap.read()
+#             if self.grabbed is False:
+#                 print('[Exiting] No more frames to read')
+#                 self.stopped = True
+#                 break
+#         self.vcap.release()
+#
+#     # method for returning latest read frame
+#     def read(self):
+#         return self.frame
+#
+#     # method called to stop reading frames
+#     def stop(self):
+#         self.stopped = True
+#
+#     # initializing and starting multi-threaded webcam capture input stream
+#
+#
+# webcam_stream = WebcamStream(stream_id=0)  # stream_id = 0 is for primary camera
+# webcam_stream.start()
+#
+# # processing frames in input stream
+# num_frames_processed = 0
+# start = time.time()
+# while True:
+#     if webcam_stream.stopped is True:
+#         break
+#     else:
+#         frame = webcam_stream.read()
+#
+#         # adding a delay for simulating time taken for processing a frame
+#     delay = 0.03  # delay value in seconds. so, delay=1 is equivalent to 1 second
+#     time.sleep(delay)
+#     num_frames_processed += 1
+#
+#     cv2.imshow('frame', frame)
+#     key = cv2.waitKey(1)
+#     if key == ord('q'):
+#         break
+# end = time.time()
+# webcam_stream.stop()  # stop the webcam stream
+#
+# # printing time elapsed and fps
+# elapsed = end - start
+# fps = num_frames_processed / elapsed
+# print("FPS: {} , Elapsed Time: {} , Frames Processed: {}".format(fps, elapsed, num_frames_processed))
+#
+# # closing all windows
+# cv2.destroyAllWindows()
+import datetime
 
-# loading haar cascades profiles( using hardocded locations )
-face_cascade = cv2.CascadeClassifier(
-    'C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_frontalface_default.xml')
-profile_cascade = cv2.CascadeClassifier(
-    'C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_profileface.xml')
 
-# importing required libraries
-import cv2
-import time
-from threading import Thread  # library for implementing multi-threaded processing
+class FPS:
+    def __init__(self):
+        # store the start time, end time, and total number of frames
+        # that were examined between the start and end intervals
+        self._start = None
+        self._end = None
+        self._numFrames = 0
 
-
-# defining a helper class for implementing multi-threaded processing
-class WebcamStream:
-    def __init__(self, stream_id=0):
-        self.stream_id = stream_id  # default is 0 for primary camera
-
-        # opening video capture stream
-        self.vcap = cv2.VideoCapture(self.stream_id)
-        if self.vcap.isOpened() is False:
-            print("[Exiting]: Error accessing webcam stream.")
-            exit(0)
-        fps_input_stream = int(self.vcap.get(5))
-        print("FPS of webcam hardware/input stream: {}".format(fps_input_stream))
-
-        # reading a single frame from vcap stream for initializing
-        self.grabbed, self.frame = self.vcap.read()
-        if self.grabbed is False:
-            print('[Exiting] No more frames to read')
-            exit(0)
-
-        # self.stopped is set to False when frames are being read from self.vcap stream
-        self.stopped = True
-
-        # reference to the thread for reading next available frame from input stream
-        self.t = Thread(target=self.update, args=())
-        self.t.daemon = True  # daemon threads keep running in the background while the program is executing
-
-    # method for starting the thread for grabbing next available frame in input stream
     def start(self):
-        self.stopped = False
-        self.t.start()
+        # start the timer
+        self._start = datetime.datetime.now()
+        return self
 
-        # method for reading next frame
+    def stop(self):
+        # stop the timer
+        self._end = datetime.datetime.now()
 
     def update(self):
-        while True:
-            if self.stopped is True:
-                break
-            self.grabbed, self.frame = self.vcap.read()
-            if self.grabbed is False:
-                print('[Exiting] No more frames to read')
-                self.stopped = True
-                break
-        self.vcap.release()
+        # increment the total number of frames examined during the
+        # start and end intervals
+        self._numFrames += 1
 
-    # method for returning latest read frame
-    def read(self):
-        return self.frame
+    def elapsed(self):
+        # return the total number of seconds between the start and
+        # end interval
+        return (self._end - self._start).total_seconds()
 
-    # method called to stop reading frames
-    def stop(self):
-        self.stopped = True
-
-    # initializing and starting multi-threaded webcam capture input stream
+    def fps(self):
+        # compute the (approximate) frames per second
+        return self._numFrames / self.elapsed()
 
 
-webcam_stream = WebcamStream(stream_id=0)  # stream_id = 0 is for primary camera
-webcam_stream.start()
+class WebcamVideoStream:
+    def __init__(self, src=0):
+        # initialize the video camera stream and read the first frame
+        # from the stream
+        self.stream = cv2.VideoCapture(src)
+        (self.grabbed, self.frame) = self.stream.read()
+        # initialize the variable used to indicate if the thread should
+        # be stopped
+        self.stopped = False
 
-# processing frames in input stream
-num_frames_processed = 0
-start = time.time()
-while True:
-    if webcam_stream.stopped is True:
-        break
-    else:
-        frame = webcam_stream.read()
+        def start(self):
+            # start the thread to read frames from the video stream
+            threading.Thread(target=self.update, args=()).start()
+            return self
 
-        # adding a delay for simulating time taken for processing a frame
-    delay = 0.03  # delay value in seconds. so, delay=1 is equivalent to 1 second
-    time.sleep(delay)
-    num_frames_processed += 1
+        def update(self):
+            # keep looping infinitely until the thread is stopped
+            while True:
+                # if the thread indicator variable is set, stop the thread
+                if self.stopped:
+                    return
+                # otherwise, read the next frame from the stream
+                (self.grabbed, self.frame) = self.stream.read()
 
-    cv2.imshow('frame', frame)
-    key = cv2.waitKey(1)
-    if key == ord('q'):
-        break
-end = time.time()
-webcam_stream.stop()  # stop the webcam stream
+        def read(self):
+            # return the frame most recently read
+            return self.frame
 
-# printing time elapsed and fps
-elapsed = end - start
-fps = num_frames_processed / elapsed
-print("FPS: {} , Elapsed Time: {} , Frames Processed: {}".format(fps, elapsed, num_frames_processed))
+        def stop(self):
+            # indicate that the thread should be stopped
+            self.stopped = True
 
-# closing all windows
+
+from imutils.video import WebcamVideoStream
+from imutils.video import FPS
+import argparse
+import imutils
+
+# construct the argument parse and parse the arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("-n", "--num-frames", type=int, default=100,
+                help="# of frames to loop over for FPS test")
+ap.add_argument("-d", "--display", type=int, default=1,
+                help="Whether or not frames should be displayed")
+args = vars(ap.parse_args())
+# grab a pointer to the video stream and initialize the FPS counter
+print("[INFO] sampling frames from webcam...")
+stream = cv2.VideoCapture(0)
+fps = FPS().start()
+# loop over some frames
+while fps._numFrames < args["num_frames"]:
+    # grab the frame from the stream and resize it to have a maximum
+    # width of 400 pixels
+    (grabbed, frame) = stream.read()
+    frame = imutils.resize(frame, width=400)
+    # check to see if the frame should be displayed to our screen
+    if args["display"] > 0:
+        cv2.imshow("Frame", frame)
+        key = cv2.waitKey(1) & 0xFF
+    # update the FPS counter
+    fps.update()
+# stop the timer and display FPS information
+fps.stop()
+print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
+print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
+# do a bit of cleanup
+stream.release()
 cv2.destroyAllWindows()
+# created a *threaded* video stream, allow the camera sensor to warmup,
+# and start the FPS counter
+print("[INFO] sampling THREADED frames from webcam...")
+vs = WebcamVideoStream(src=0).start()
+fps = FPS().start()
+# loop over some frames...this time using the threaded stream
+while fps._numFrames < args["num_frames"]:
+    # grab the frame from the threaded video stream and resize it
+    # to have a maximum width of 400 pixels
+    frame = vs.read()
+    frame = imutils.resize(frame, width=400)
+    # check to see if the frame should be displayed to our screen
+    if args["display"] > 0:
+        cv2.imshow("Frame", frame)
+        key = cv2.waitKey(1) & 0xFF
+    # update the FPS counter
+    fps.update()
+# stop the timer and display FPS information
+fps.stop()
+print("[INFO] elasped time: {:.2f}".format(fps.elapsed()))
+print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
+# do a bit of cleanup
+cv2.destroyAllWindows()
+vs.stop()
