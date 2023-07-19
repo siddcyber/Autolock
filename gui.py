@@ -53,7 +53,7 @@ cameraCanvas = Canvas(cameraFrame, width=700 // 2, height=360 // 2)
 cameralabel = Label(cameraFrame, relief='raised', text="no face detected", background='White')
 
 #  third frame for log and start/stop button
-logFrame = LabelFrame(window, background='White')
+logFrame = LabelFrame(window, background='White', text="log")
 log = Listbox(logFrame, background='White')
 log.insert(0, "log")
 startStopButton = Button(logFrame, text='Start', command=startORstop, background='White')
