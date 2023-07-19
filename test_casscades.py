@@ -37,7 +37,6 @@ with open("known_encodings.pkl", "rb") as f:
     knownFace = pickle.load(f)
     print(knownFace)
 
-faceNames = []
 
 while True:
     _, frame = capture.read()
