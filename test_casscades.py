@@ -1,6 +1,7 @@
 import os, threading, sys, math, datetime
 import cv2
 import face_recognition
+import pickle
 import tkinter as tk
 from tkinter import *
 import cmake
@@ -29,12 +30,13 @@ face_cascade = cv2.CascadeClassifier(
     'C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_frontalface_default.xml')
 profile_cascade = cv2.CascadeClassifier(
     'C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_profileface.xml')
-userImage = face_recognition.load_image_file("face/face.jpg")
-knownFace = face_recognition.face_encodings(userImage, model="small")[0]
-# with open("knownFace.txt", "w+") as f:
-#     f.truncate()
-#     f.write(str(knownFace))
-#     f.close()
+# userImage = face_recognition.load_image_file("face/face.jpg")
+# knownFace = face_recognition.face_encodings(userImage, model="small")[0]
+with open("known_encodings.pkl", "rb") as f:
+    knownFace = pickle.load(f)
+    print(knownFace)
+    print(knownFace.keys())
+
 faceNames = []
 
 while True:
@@ -58,14 +60,23 @@ while True:
         # use face recognition library here for face recognition and further processing
         RGB = cv2.cvtColor(extracted_face, cv2.COLOR_BGR2RGB)
 
-        faceNames = []
         face_encodings = face_recognition.face_encodings(RGB)
-        for currentFace in face_encodings:
-            matches = face_recognition.compare_faces([knownFace], currentFace)
-            if matches == [True]:
-                print("user")
-            else:
-                print("Unknown")
+        for face_encoding in face_encodings:
+            # Compare the detected face encoding with known encodings
+            matches = face_recognition.compare_faces(knownFace, face_encoding, tolerance=0.5)
+
+            for i, match in enumerate(matches):
+                if match:
+                    # Get the name of the matched profile
+                    profile_name = known_profiles[i]["name"]
+                    print(f"Detected profile: {profile_name}")
+        # face_encodings = face_recognition.face_encodings(RGB)
+        # for currentFace in face_encodings:
+        #     matches = face_recognition.compare_faces([knownFace], currentFace)
+        #     if any(matches):
+        #         print("user")
+        #     else:
+        #         print("Unknown")
             # name = "Unknown"
             # face_distances = face_recognition.face_distance(knownFace, currentFace)
             # best_match_index = np.argmin(face_distances)
