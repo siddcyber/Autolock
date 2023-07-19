@@ -8,8 +8,8 @@ known_encodings = []
 
 # Load the known profiles and their corresponding face images
 known_profiles = [
-    {"name": "person1", "path": "path/to/person1_profile.jpg"},
-    {"name": "person2", "path": "path/to/person2_profile.jpg"},
+    {"name": "main user", "path": "face/face.jpg"},
+    # {"name": "person2", "path": "path/to/person2_profile.jpg"},
     # Add more known profiles as needed
 ]
 

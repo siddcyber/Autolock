@@ -3,6 +3,7 @@ from time import sleep, time
 import cv2
 import face_recognition
 import pickle
+from saved_Face import known_profiles
 import tkinter as tk
 from tkinter import *
 import cmake
@@ -31,12 +32,12 @@ face_cascade = cv2.CascadeClassifier(
 profile_cascade = cv2.CascadeClassifier(
     'C:\Program Files\Python39\Lib\site-packages\cv2\data\haarcascade_profileface.xml')
 
-userImage = face_recognition.load_image_file("face/face.jpg")
-knownFace = face_recognition.face_encodings(userImage, model="small")[0]
+# userImage = face_recognition.load_image_file("face/face.jpg")
+# knownFace = face_recognition.face_encodings(userImage, model="small")[0]
 
-# with open("known_encodings.pkl", "rb") as f:
-#     knownFace = pickle.load(f)
-#     print(knownFace)
+with open("known_encodings.pkl", "rb") as f:
+    knownFace = pickle.load(f)
+    print(knownFace)
 
 faceNames = []
 
@@ -60,23 +61,23 @@ while True:
         # extracted_face = cv2.cvtColor(frame[y:y + height, x:x + width], cv2.COLOR_GRAY2RGB)
         # use face recognition library here for face recognition and further processing
         RGB = cv2.cvtColor(extracted_face, cv2.COLOR_BGR2RGB)
-        # face_encodings = face_recognition.face_encodings(RGB)
-        # for face_encoding in face_encodings:
-        #     # Compare the detected face encoding with known encodings
-        #     matches = face_recognition.compare_faces(knownFace, face_encoding, tolerance=0.5)
-        #
-        #     for i, match in enumerate(matches):
-        #         if match:
-        #             # Get the name of the matched profile
-        #             profile_name = known_profiles[i]["name"]
-        #             print(f"Detected profile: {profile_name}")
         face_encodings = face_recognition.face_encodings(RGB)
-        for currentFace in face_encodings:
-            matches = face_recognition.compare_faces([knownFace], currentFace)
-            if any(matches):
-                print("user")
-            else:
-                print("Unknown")
+        for face_encoding in face_encodings:
+            # Compare the detected face encoding with known encodings
+            matches = face_recognition.compare_faces(knownFace, face_encoding, tolerance=0.5)
+
+            for i, match in enumerate(matches):
+                if match:
+                    # Get the name of the matched profile
+                    profile_name = known_profiles[i]["name"]
+                    print(f"Detected profile: {profile_name}")
+        # face_encodings = face_recognition.face_encodings(RGB)
+        # for currentFace in face_encodings:
+        #     matches = face_recognition.compare_faces([knownFace], currentFace)
+        #     if any(matches):
+        #         print("user")
+        #     else:
+        #         print("Unknown")
 
 
     # code to check if profile was detected and print detected time
