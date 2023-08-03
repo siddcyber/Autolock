@@ -3,7 +3,7 @@ from time import sleep, time
 import cv2
 import face_recognition
 import pickle
-from saved_Face import known_profiles
+from saved_Face import known_profiles_info
 
 start = time()
 
@@ -31,8 +31,6 @@ profile_cascade = cv2.CascadeClassifier(
 with open("known_encodings.pkl", "rb") as f:
     knownFace = pickle.load(f)
     # print(knownFace)
-# with open("known_profiles.pkl", "rb") as f:
-#     known_profiles = pickle.load(f)
 
 while True:
     _, frame = capture.read()
@@ -61,7 +59,7 @@ while True:
             for i, match in enumerate(matches):
                 if match:
                     # Get the name of the matched profile
-                    profile_name = known_profiles[i]["name"]
+                    profile_name = known_profiles_info[i]["name"]
                     print(f"Detected profile: {profile_name}")
 
 

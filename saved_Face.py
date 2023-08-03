@@ -43,14 +43,14 @@ known_encodings = []
 
 # Load the known profiles and their corresponding face images
 
-known_profiles = [
+known_profiles_info = [
     {"name": "main user", "path": "face/face.jpg"},
     {"name": "elon musk", "path": "face/elonmusk.jpg"},
     # Add more known profiles as needed
 ]
 
 # Load and encode the known profiles
-for profile in known_profiles:
+for profile in known_profiles_info:
     profile_image = face_recognition.load_image_file(profile["path"])
     profile_encoding = face_recognition.face_encodings(profile_image)[0]
     known_encodings.append(profile_encoding)
