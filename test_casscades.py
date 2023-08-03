@@ -4,11 +4,6 @@ import cv2
 import face_recognition
 import pickle
 from saved_Face import known_profiles
-import tkinter as tk
-from tkinter import *
-import cmake
-import numpy as np
-import dlib
 
 start = time()
 
@@ -35,8 +30,9 @@ profile_cascade = cv2.CascadeClassifier(
 
 with open("known_encodings.pkl", "rb") as f:
     knownFace = pickle.load(f)
-    print(knownFace)
-
+    # print(knownFace)
+# with open("known_profiles.pkl", "rb") as f:
+#     known_profiles = pickle.load(f)
 
 while True:
     _, frame = capture.read()
