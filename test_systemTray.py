@@ -17,7 +17,7 @@ def after_click(icon, query):
         icon.stop()
 
 
-icon = pystray.Icon("GFG", image, "GeeksforGeeks",
+icon = pystray.Icon("AT_GUI", image, "Autolock UI",
                     menu=pystray.Menu(
                         pystray.MenuItem("GeeksforGeeks Website",
                                          after_click),
